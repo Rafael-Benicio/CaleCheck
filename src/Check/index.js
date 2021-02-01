@@ -1,14 +1,31 @@
 import React from 'react';
-import {Text, View} from 'react-native'
-import {LocaleConfig} from 'react-native-calendars'
+import {Text, View, Dimensions, TouchableHighlight} from 'react-native'
 
-const Check=function(){
-	const C2021=['Janeiro','Fervereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
+import styles from './styles'
 
+const Check=function({navigation, route}){
+	const cal=[['Janeiro','Fervereiro'],['Março','Abril'],['Março','Junho'],['Julho','Agosto'],['Setembro','Outubro'],['Novembro','Dezembro']]
 	return(
-			<View>
-				<Text>Check</Text>
+			<View style={styles.back}>
+			{
+			cal.map((i,ind)=>(
+				<View key={ind} style={styles.gridWar}>
+				{
+					i.map((j,end)=>(				
+						<TouchableHighlight 
+							key={end} 
+							underlayColor="#0f0"  
+							style={styles.warpTex} 
+							onPress={()=>navigation.navigate('Mes',{mes:j})}>
+								<Text style={styles.textCal}>{j}</Text>
+						</TouchableHighlight>
+					))}
+				</View>
+			))	
+			}
 			</View>
+
+			
 		)
 }
 

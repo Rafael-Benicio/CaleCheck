@@ -1,9 +1,18 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 
-const Mes=()=>{
+import styles from './styles'
+
+const Mes=({navigation, route})=>{
+	const nomeMes=route.params.mes
+
 	return(
-			<Text>Mes</Text>
+		<View style={styles.back}>
+			<View style={styles.topBar}>
+				<Text>{nomeMes}</Text>
+			</View>
+
+		</View>
 		);
 }
 
