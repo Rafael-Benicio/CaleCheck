@@ -15,6 +15,13 @@ const styles = StyleSheet.create({
 		backgroundColor:'#b6f',	
 		height:heightHe,
 	},
+	mesN:{
+		color: '#fff',
+		fontSize: 30,
+		fontWeight:700,
+		flex: 1,
+		marginLeft: widthWi*0.1
+	}
 
 })
 

@@ -9,9 +9,8 @@ const Mes=({navigation, route})=>{
 	return(
 		<View style={styles.back}>
 			<View style={styles.topBar}>
-				<Text>{nomeMes}</Text>
+				<Text style={styles.mesN}>{nomeMes}</Text>
 			</View>
-
 		</View>
 		);
 }
