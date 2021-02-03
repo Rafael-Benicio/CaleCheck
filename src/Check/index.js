@@ -4,7 +4,7 @@ import {Text, View, Dimensions, TouchableHighlight} from 'react-native'
 import styles from './styles'
 
 const Check=function({navigation, route}){
-	const cal=[['Janeiro','Fervereiro'],['Março','Abril'],['Março','Junho'],['Julho','Agosto'],['Setembro','Outubro'],['Novembro','Dezembro']]
+	const cal=[['Janeiro','Fervereiro'],['Março','Abril'],['Maio','Junho'],['Julho','Agosto'],['Setembro','Outubro'],['Novembro','Dezembro']]
 	return(
 			<View style={styles.back}>
 			{
