@@ -1,9 +1,7 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, Dimensions} from 'react-native';
+import {Text, View, TouchableOpacity, TouchableHighlight } from 'react-native';
 
 import styles from './styles'
-
-const widthWi = Dimensions.get('window').width;
 
 const Mes=({navigation, route})=>{
 	// Obtem o mes que será exibido na pagina
@@ -19,13 +17,23 @@ const Mes=({navigation, route})=>{
 		else if(vai==false && fun==0) return 11;
 		else return (fun-1)}
 	// Para gerar os dias
-	// const daysGenesis=(dias=30)=>{
-	// 	let build=[];
-	// 	for(let g=1;g!=(dias+1);g++){
-	// 		build.push(g)
-	// 	}
-	// 	return build
-	// }
+	const daysGenesis=(dias=30)=>{
+		let build=[];
+		for(let g=1;g!=(dias+1);g++){
+			build.push(g)
+		}
+		return build
+	}
+	// Para gerar as semanas
+	const semanaGenesis=()=>{
+		let sem=[['Dom','Seg','Ter','Qua','Qui','Sex','Sab']]
+		for(let i=0;i<5;i++){
+			sem.push([1,2,3,4,5,6,7])
+		}
+		return sem
+	}
+
+	
 
 	return(
 		<View style={styles.back}>
@@ -42,12 +50,21 @@ const Mes=({navigation, route})=>{
 					<Text style={styles.goC}>{'>'}</Text>
 				</TouchableOpacity>
 			</View>
-
-{/*			<View>
-				{ daysGenesis().map((n)=>(
-					<Text>{n}</Text>
-				))}
-			</View>*/}
+			<View style={styles.listDay}>	
+				{
+					semanaGenesis().map((i,j)=>(
+						<View style={styles.warpView} key={j}>{
+							i.map((o,u)=>{
+				
+							return (
+								<TouchableOpacity style={styles.viewDay} key={u}>
+									<Text >{o}</Text>
+								</TouchableOpacity>	
+						)})
+						}</View>
+						))
+				}
+			</View>
 		</View>
 		);
 }

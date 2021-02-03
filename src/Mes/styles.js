@@ -4,7 +4,7 @@ import {StyleSheet, Dimensions} from 'react-native'
 const widthWi = Dimensions.get('window').width;
 const heightHe = Dimensions.get('window').height*0.13;
 
-console.log(heightHe);
+console.log(widthWi/7);
 
 const styles = StyleSheet.create({
 	back:{
@@ -38,7 +38,23 @@ const styles = StyleSheet.create({
 		flex: 1,
 		marginRight: widthWi*0.03
 
+	},
+	listDay:{
+	},
+	warpView:{
+		flexDirection: 'row',
+		backgroundColor:'#0f0'
+	},
+	viewDay:{
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor:'#8844ff',
+		width:widthWi/7,
+		height:widthWi/7,
+		borderColor: '#000000',
+		borderWidth: 1
 	}
+
 
 })
 
