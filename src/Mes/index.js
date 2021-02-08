@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, TouchableNativeFeedback, } from 'react-native';
+import {Text, View, TouchableOpacity, TouchableHighlight} from 'react-native';
 
 import styles from './styles'
 
@@ -83,8 +83,6 @@ const Mes=({navigation, route})=>{
 		return sem
 	}
 
-
-
 	
 
 	return(
@@ -94,7 +92,7 @@ const Mes=({navigation, route})=>{
 					<Text style={styles.backC}>{'<'}</Text>
 				</TouchableOpacity>
 
-				<TouchableOpacity onPress={()=>navigation.navigate('Check')}>
+				<TouchableOpacity  style={styles.mesNome} onPress={()=>navigation.navigate('Check')}>
 					<Text style={styles.mesN}>{nomeMes}</Text>
 				</TouchableOpacity>
 				
@@ -109,9 +107,9 @@ const Mes=({navigation, route})=>{
 							i.map((o,u)=>{
 							if(!i.indexOf('Dom')){
 								return (
-									<TouchableNativeFeedback style={styles.viewDay} key={u}>
+									<TouchableHighlight style={styles.viewDay} key={u}>
 										<Text style={styles.textDay} >{o}</Text>
-									</TouchableNativeFeedback>	
+									</TouchableHighlight>	
 								)
 							}else if(o==" "){										
 								return (

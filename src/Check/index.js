@@ -1,11 +1,15 @@
 import React from 'react';
-import {Text, View, Dimensions, TouchableHighlight} from 'react-native'
+import {Text, View, Dimensions, TouchableHighlight, ScrollView, StatusBar} from 'react-native'
 
 import styles from './styles'
 
 const Check=function({navigation, route}){
 	const cal=[['Janeiro','Fervereiro'],['Março','Abril'],['Maio','Junho'],['Julho','Agosto'],['Setembro','Outubro'],['Novembro','Dezembro']]
 	return(
+		<ScrollView>
+			<StatusBar
+	        backgroundColor="#000"
+	        />
 			<View style={styles.back}>
 			{
 			cal.map((i,ind)=>(
@@ -24,6 +28,8 @@ const Check=function({navigation, route}){
 			))	
 			}
 			</View>
+		</ScrollView>
+
 
 			
 		)

@@ -11,26 +11,30 @@ const styles = StyleSheet.create({
 		backgroundColor:'#a0f'
 	},
 	topBar:{
-		flexDirection:'row',
 		backgroundColor:'#b6f',	
 		height:heightHe,
-		alignItems: 'center',
-		justifyContent: 'space-between'
+		flexDirection:'row',
+		paddingTop: heightHe/5
 	},
 	mesDia:{
 		color: '#fff',
 		fontSize: 30,
-		fontWeight:700,
+		fontWeight:"bold",
 		flex: 1,
 	},
 	warpMesDia:{
-		marginLeft: widthWi*0.03
+		marginLeft: widthWi*0.03,
+		flex:1
+	},
+	warpEdit:{
+		flexDirection:'row',
+		paddingTop: heightHe/10
 	},
 	edit:{
 		backgroundColor:'#a0f',
 		borderRadius: 8,
-		height: heightHe*0.5,
-		width: heightHe*0.5,
+		height: heightHe*0.4,
+		width: heightHe*0.4,
 		alignItems: 'center',
 		justifyContent:'center',
 		paddingBottom: 4 ,
@@ -39,8 +43,8 @@ const styles = StyleSheet.create({
 	},
 	edTex:{
 		color:'#FFF',
-		fontWeight:30,
-		fontSize: 30
+		fontWeight:'bold',
+		fontSize: 25
 	}
 })
 

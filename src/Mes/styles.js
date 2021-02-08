@@ -17,23 +17,27 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between'
 	},
-	mesN:{
-		color: '#fff',
-		fontSize: 30,
-		fontWeight:700,
-		flex: 1,
+	mesNome:{
+		alignItems:'flex-start'
+		
 	},
 	backC:{
 		color: '#fff',
 		fontSize: 50,
-		fontWeight:700,
+		fontWeight:"bold",
 		flex: 1,
 		marginLeft: widthWi*0.03
+	},
+	mesN:{
+		color: '#fff',
+		fontSize: 50,
+		fontWeight:"bold",
+		flex: 1,
 	},
 	goC:{
 		color: '#fff',
 		fontSize: 50,
-		fontWeight:700,
+		fontWeight:"bold",
 		flex: 1,
 		marginRight: widthWi*0.03
 
@@ -42,7 +46,8 @@ const styles = StyleSheet.create({
 	},
 	warpView:{
 		flexDirection: 'row',
-		backgroundColor:'#0f0'
+		backgroundColor:'#0f0',
+		alignItems: 'center'
 	},
 	viewDay:{
 		alignItems: 'center',
