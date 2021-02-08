@@ -43,7 +43,6 @@ const Mes=({navigation, route})=>{
 						}
 					}else arr[i][j]=" "
 		}}}
-		console.log(arr);
 		return arr
 	}
 
@@ -122,7 +121,7 @@ const Mes=({navigation, route})=>{
 								)
 							}else{										
 								return (
-									<TouchableOpacity style={styles.viewDay} key={u}>
+									<TouchableOpacity style={styles.viewDay} key={u} onPress={()=>navigation.navigate('Day',{mes:nomeMes,dia:o,valorMes:cale.indexOf(nomeMes)})}>
 										<Text style={styles.textDay} >{o}</Text>
 									</TouchableOpacity>	
 								)

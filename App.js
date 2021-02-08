@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 
 import Check from './src/Check';
 import Mes from './src/Mes';
-
+import Day from './src/Day'
 
 export default function App() {
   return (
@@ -15,6 +15,7 @@ export default function App() {
            <Stack.Navigator initialRouteName="Check" screenOptions={{headerShown: false}}>
                 <Stack.Screen name="Check" component={Check}/>
                 <Stack.Screen name="Mes" component={Mes}/>
+                <Stack.Screen name="Day" component={Day}/>
            </Stack.Navigator>
     </NavigationContainer>
   );
