@@ -37,14 +37,12 @@ const Day=({navigation, route})=>{
         }
     }
 
-    
-
     console.log(loadData());
 
 	return(
 		<View style={styles.back}>
 			<View style={styles.topBar}>
-					<TouchableOpacity style={styles.warpMesDia} onPress={()=>navigation.navigate('Mes')}>
+					<TouchableOpacity style={styles.warpMesDia} onPress={()=>navigation.navigate('Mes',{mes:nomeMes})}>
 						<Text style={styles.mesDia}>{'Dia '+dia+' de '+nomeMes}</Text>
 					</TouchableOpacity>
 
