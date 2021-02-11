@@ -36,13 +36,14 @@ const styles = StyleSheet.create({
 		padding: widthWi*0.03,
 		borderRadius: 8,
 		position: 'absolute',
-		top:Dimensions.get('window').height/2-Dimensions.get('window').height*0.2/2,
+		top:Dimensions.get('window').height/2-Dimensions.get('window').height*0.2,
 		left: widthWi/2-widthWi*0.7/2
 		
 	},
 	inputAdd:{
 		backgroundColor:'#ddd',
-		borderRadius:8
+		borderRadius:8,
+		paddingHorizontal: 8
 	},
 	warpMesDia:{
 		marginLeft: widthWi*0.03,
