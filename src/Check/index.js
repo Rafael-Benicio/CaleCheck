@@ -11,12 +11,20 @@ const Check=function({navigation, route}){
 	async function loadData(){
 		try{
 		    let i=await  AsyncStorage.getItem('Key')
-			return JSON.parse(i)
+			return console.log('Sucesso: check '+JSON.parse(i))
 		}catch(err){
-            await AsyncStorage.setItem('Key',JSON.stringify({mes:[[],[],[],[],[],[],[],[],[],[],[],[]]}))
-            console.log('Novos dados');
+			console.log('Erro: Check');
+            RDados()
 		}
 	}
+
+	const RDados= async ()=>{
+		await AsyncStorage.setItem('Key',JSON.stringify({mes:[[],[],[],[],[],[],[],[],[],[],[],[]]}))
+        alert("Dados Resetados")
+        setReset(false)
+	} 
+
+	loadData()
 
 	const ResetDados=()=>{
 		if(reset){
@@ -25,7 +33,7 @@ const Check=function({navigation, route}){
 						<Text>Você tem certeza que quer </Text>
 						<Text>APAGAR os dados do App?</Text>
 						<View style={styles.buttonsConfirm}>
-							<Button color='#84f' title="Sim"/> 
+							<Button color='#84f' title="Sim" onPress={RDados}/> 
 							<Button color='#84f' title="Não" onPress={()=>(setReset(false))}/>
 						</View>
 					</View>

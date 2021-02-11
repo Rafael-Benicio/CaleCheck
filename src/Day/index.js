@@ -1,30 +1,25 @@
 import React, {useEffect, useState} from 'react'
-import {View,Text, TouchableOpacity, Image, AsyncStorage} from 'react-native'
+import {View,Text, TouchableOpacity,TextInput ,AsyncStorage, Button} from 'react-native'
 
 import styles from './styles'
-
 
 const Day=({navigation, route})=>{
 	const valorMes=route.params.valorMes
 	const nomeMes=route.params.mes
 	const dia=route.params.dia
-
-	const [data,setData]=useState([])
-
-	useEffect(() => {
-    	setData(loadData())
-    	console.log(data);
-  	});
+	const [data,setData]=useState(loadData())
+	const [showNew,setShowNew]=useState(false)
 
 	async function loadData(){
 		try{
 		    let i=await  AsyncStorage.getItem('Key')
-		    return JSON.parse(i)
+		    let j
+		    j=JSON.parse(i).mes
+		    setData(j)
 		}catch(error){
-			console.log('Erro :'+error);
+			console.log('Erro ao Obter dados');
 		}
-
-    }
+	}
 
     async function saveData(n){
         try {
@@ -37,7 +32,18 @@ const Day=({navigation, route})=>{
         }
     }
 
-    console.log(loadData());
+    function addDadosSave(){
+    	if(showNew){
+    	    	return (
+    	    		<View style={styles.showAdd}>
+    	    			<Text  style={styles.textoNova} >Nova Tarefa:</Text>
+    	    			<TextInput style={styles.inputAdd} />
+    	    			<View style={styles.buttonsOr}>
+    	    				<Button color='#84f' title="Sim" /> 
+							<Button color='#84f' title="Não" onPress={()=>setShowNew(false)} />
+    	    			</View>
+    	    		</View>
+    )}}
 
 	return(
 		<View style={styles.back}>
@@ -46,18 +52,21 @@ const Day=({navigation, route})=>{
 						<Text style={styles.mesDia}>{'Dia '+dia+' de '+nomeMes}</Text>
 					</TouchableOpacity>
 
-					<View style={styles.warpEdit}>
-						<TouchableOpacity style={styles.edit}>
-							<Text style={styles.edTex}>+</Text>
-						</TouchableOpacity>	
+					<TouchableOpacity style={styles.edit} onPress={()=>((showNew==false)?setShowNew(true):setShowNew(false))}>
+						<Text style={styles.edTex}>+</Text>
+					</TouchableOpacity>	
 
-						<TouchableOpacity style={styles.edit}>
-							<Text style={styles.edTex}>[]</Text>
-						</TouchableOpacity>	
-					</View>
+					<TouchableOpacity style={styles.edit} onPress={()=>(console.log(data))}>
+						<Text style={styles.edTex}>[]</Text>
+					</TouchableOpacity>		
 			</View>
+
+			{
+				addDadosSave()
+			}
 		</View>
 
-)}
+)
+}
 
 export default Day

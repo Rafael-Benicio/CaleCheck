@@ -18,9 +18,31 @@ const styles = StyleSheet.create({
 	},
 	mesDia:{
 		color: '#fff',
-		fontSize: 30,
+		fontSize: 25,
 		fontWeight:"bold",
 		flex: 1,
+	},
+	buttonsOr:{
+		flexDirection:'row',
+		justifyContent:'space-around',
+		paddingTop: widthWi*0.03
+	},
+	showAdd:{
+		backgroundColor:'#fff',
+		borderWidth: 1,
+		width:widthWi*0.7,
+		height:Dimensions.get('window').height*0.2,
+		// alignItems:  'center'
+		padding: widthWi*0.03,
+		borderRadius: 8,
+		position: 'absolute',
+		top:Dimensions.get('window').height/2-Dimensions.get('window').height*0.2/2,
+		left: widthWi/2-widthWi*0.7/2
+		
+	},
+	inputAdd:{
+		backgroundColor:'#ddd',
+		borderRadius:8
 	},
 	warpMesDia:{
 		marginLeft: widthWi*0.03,
@@ -45,7 +67,11 @@ const styles = StyleSheet.create({
 		color:'#FFF',
 		fontWeight:'bold',
 		fontSize: 25
-	}
+	},
+	textoNova:{
+		fontWeight:'bold',
+		fontSize:16
+	},
 })
 
 export default styles
