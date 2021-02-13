@@ -51,10 +51,16 @@ const Day=({navigation, route})=>{
    	function addNewDadoSave(obj,ni){
    		let dt=obj;
    		let ind=parseInt(valorMes, 10)
+		let have=false
+		let def='dia'+dia
 
-   		let parametros = {"1":dia}
+   		let parametros = {"1":def}
 		let objeto = {"1":[]}
 
+		let addC = {"1":ni}
+		let addB = {"1":false}
+
+		// registra dia
 		Object.keys(parametros).forEach(key => {
 		   // pega o valor que será a nova chave
 		    let newKey = parametros[key];
@@ -63,24 +69,51 @@ const Day=({navigation, route})=>{
 		    // apaga a chave antiga
 		    delete objeto[key];
 		});
+		// conteudo do dias
+		Object.keys(addC).forEach(key => {
+		   // pega o valor que será a nova chave
+		    let newKey = addC[key];
+		   // cria dinamicamente a nova chave com o valor antigo
+		    addB[newKey] = addB[key];
+		    // apaga a chave antiga
+		    delete addB[key];
+		});
 
-		try{
-			dt.mes[ind].push(objeto)
+		console.log(addB);
 
-			console.log(Object.keys(dt.mes[ind]));
+		dt.mes[ind].push(objeto)
+		dt.mes[ind].push({dia8:[]})
 
-		}catch(err){
+		dt.mes[ind].map(i=>{
+			have=false
+			console.log('Array dias :')
+			console.log(i);
 			
-		
-			// console.log(objeto);
-		
-			dt.mes[ind].push(objeto)
-		
-		}
 
+			if(Object.keys(i)[0]==def){
+				console.log('existe');
+		   		have=true;
+			}
+
+			if(have){
+				console.log('Have');
+				// dt.mes[ind].dia24.push(addB)
+				console.log(dt.mes[ind]);
+				// eval('dt.mes[ind]._'+dia+'_.push('+addB+')')
+			}else{
+				// dt.mes[ind].push(objeto)
+			}
+		})
+
+		
+
+		// console.log(eval('dt.mes[ind].'+'_'+dia+'_'));		
+
+		// console.log('Array '+nomeMes+' : ');
 		// console.log(dt.mes[ind]);
+		
 
-		console.log('=========================');
+		console.log('__________________________________');
    	}
 
 	return(
