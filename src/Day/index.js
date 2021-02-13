@@ -42,7 +42,7 @@ const Day=({navigation, route})=>{
     	    			<Text  style={styles.textoNova} >Nova Tarefa:</Text>
     	    			<TextInput style={styles.inputAdd} value={tmp} onChangeText={tmp => setTmp(tmp)} multiline={false} maxLength={20} autoFocus={true} />
     	    			<View style={styles.buttonsOr}>
-    	    				<Button color='#84f' title="Sim" onPress={()=>{let t=tmp;setTmp('');setShowNew(false); return addNewDadoSave(data,t);}} /> 
+    	    				<Button color='#84f' title="Sim" onPress={()=>{let t=tmp.trim();setTmp('');setShowNew(false); if(t) return addNewDadoSave(data,t);else alert('Sem conteudo')}} /> 
 							<Button color='#84f' title="Não" onPress={()=>{setTmp(''); return setShowNew(false)}} />
     	    			</View>
     	    		</View>
@@ -59,6 +59,8 @@ const Day=({navigation, route})=>{
 
 		let addC = {"1":ni}
 		let addB = {"1":false}
+
+		let indice=false
 
 		// registra dia
 		Object.keys(parametros).forEach(key => {
@@ -81,39 +83,53 @@ const Day=({navigation, route})=>{
 
 		console.log(addB);
 
-		dt.mes[ind].push(objeto)
-		dt.mes[ind].push({dia8:[]})
+		// dt.mes[ind].push(objeto)
+		// dt.mes[ind].push({dia8:[]})
 
-		dt.mes[ind].map(i=>{
-			have=false
+		dt.mes[ind].map((i,index)=>{
+			have=(have==false)? false:true
 			console.log('Array dias :')
-			console.log(i);
+			console.log(have);
 			
 
 			if(Object.keys(i)[0]==def){
+				indice=index
 				console.log('existe');
 		   		have=true;
 			}
-
-			if(have){
-				console.log('Have');
-				// dt.mes[ind].dia24.push(addB)
-				console.log(dt.mes[ind]);
-				// eval('dt.mes[ind]._'+dia+'_.push('+addB+')')
-			}else{
-				// dt.mes[ind].push(objeto)
-			}
 		})
 
-		
+		console.log('Passou Map\n');
 
-		// console.log(eval('dt.mes[ind].'+'_'+dia+'_'));		
+		console.log(indice+'\n');
 
-		// console.log('Array '+nomeMes+' : ');
-		// console.log(dt.mes[ind]);
-		
+		if(have){
+			console.log('Have');
+			eval('dt.mes[ind][indice].'+def).push(addB);		
+			// console.log(dt.mes[ind]);
+		}else{
+			console.log('Não Have');
+			dt.mes[ind].push(objeto)
+			console.log('!-!-!');
 
-		console.log('__________________________________');
+			dt.mes[ind].map((i,index)=>{
+			if(Object.keys(i)[0]==def){
+				indice=index
+			}})
+
+			console.log(dt.mes[ind]);
+			eval('dt.mes[ind][indice].'+def).push(addB);		
+		}
+
+		console.log('\nLast Lag ---\n');	
+
+		// console.log(eval('dt.mes[ind][indice].'+def));		
+
+		console.log('kdjd');
+
+		saveData(dt)
+
+		console.log('\n__________________________________');
    	}
 
 	return(
@@ -127,7 +143,7 @@ const Day=({navigation, route})=>{
 						<Text style={styles.edTex}>+</Text>
 					</TouchableOpacity>	
 
-					<TouchableOpacity style={styles.edit} onPress={()=>(console.log(data.mes))}>
+					<TouchableOpacity style={styles.edit} onPress={()=>{console.log('\n============\n');console.log(data.mes);console.log('\n============\n')}}>
 						<Text style={styles.edTex}>[]</Text>
 					</TouchableOpacity>		
 			</View>
