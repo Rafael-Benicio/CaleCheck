@@ -73,6 +73,14 @@ const styles = StyleSheet.create({
 		fontWeight:'bold',
 		fontSize:16
 	},
+	listCheck:{
+		// flex:1,
+		flexDirection: 'row' ,
+		backgroundColor:'#ddd',
+		height:Dimensions.get('window').height*0.1,
+		alignItems:'center'
+
+	},
 })
 
 export default styles

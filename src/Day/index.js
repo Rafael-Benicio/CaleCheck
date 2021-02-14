@@ -11,6 +11,7 @@ const Day=({navigation, route})=>{
 	const [data,setData]=useState(loadData())
 	const [showNew,setShowNew]=useState(false)
 
+	// Carregar dados
 	async function loadData(){
 		try{
 		    let i=await  AsyncStorage.getItem('Key')
@@ -22,6 +23,7 @@ const Day=({navigation, route})=>{
 		}
 	}
 
+	// Salva dados
     async function saveData(n=data){
         try {
             await AsyncStorage.setItem('Key',JSON.stringify(n))
@@ -34,6 +36,7 @@ const Day=({navigation, route})=>{
 
     }
 
+    // Tela de input, sim e não
     function addDadosSave(){
     	const [tmp,setTmp]=useState('')
     	if(showNew){
@@ -48,8 +51,10 @@ const Day=({navigation, route})=>{
     	    		</View>
     )}}
 
+    // Salvar dados 
    	function addNewDadoSave(obj,ni){
    		let dt=obj;
+   		// Aponta mes
    		let ind=parseInt(valorMes, 10)
 		let have=false
 		let def='dia'+dia
@@ -132,6 +137,44 @@ const Day=({navigation, route})=>{
 		console.log('\n__________________________________');
    	}
 
+   	function showChecks(dt=data){
+   		let ind=parseInt(valorMes, 10)
+   		let indice=0
+   		let def='dia'+dia
+   		let have=false
+   		let cont=null
+   		// console.log(dt.mes[ind]);
+
+   		dt.mes[ind].map((i,index)=>{
+   			if(Object.keys(i)[0]==def){
+				indice=index
+				console.log('existe');
+				have=true
+			}else{
+				console.log('Não existe');
+			}
+   		})
+
+   		console.log('\n\n');
+   		console.log(eval('dt.mes[ind][indice].'+def));
+   		console.log('\n\n');
+
+   		if(have){
+   			console.log('have');
+			return eval('dt.mes[ind][indice].'+def).map((i,index)=>{
+				return (
+						<View key={index} style={styles.listCheck}>
+							<Text style={{fontSize: 24, color:'#309',marginLeft:10}}>{Object.keys(i)}</Text>
+							<View></View>
+						</View>
+					)
+			})   			
+   		}else{
+   			console.log('Não have');
+   			return (<View></View>)
+   		}
+   	}
+
 	return(
 		<View style={styles.back}>
 			<View style={styles.topBar}>
@@ -143,9 +186,14 @@ const Day=({navigation, route})=>{
 						<Text style={styles.edTex}>+</Text>
 					</TouchableOpacity>	
 
-					<TouchableOpacity style={styles.edit} onPress={()=>{console.log('\n============\n');console.log(data.mes);console.log('\n============\n')}}>
+					<TouchableOpacity style={styles.edit} onPress={()=>{console.log('\n============\n');showChecks();console.log('\n============\n')}}>
 						<Text style={styles.edTex}>[]</Text>
 					</TouchableOpacity>		
+			</View>
+			<View>
+				{
+					showChecks()
+				}
 			</View>
 
 			{
