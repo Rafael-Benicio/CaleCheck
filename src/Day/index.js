@@ -4,6 +4,7 @@ import {View,Text, TouchableOpacity,TextInput ,AsyncStorage, Button} from 'react
 import styles from './styles'
 
 const Day=({navigation, route})=>{
+
 	const valorMes=route.params.valorMes
 	const nomeMes=route.params.mes
 	const dia=route.params.dia
@@ -65,7 +66,7 @@ const Day=({navigation, route})=>{
 		let addB = {"1":false}
 
 		let indice=false
-
+	
 		// registra dia
 		Object.keys(parametros).forEach(key => {
 		   // pega o valor que será a nova chave
@@ -143,32 +144,36 @@ const Day=({navigation, route})=>{
    		let def='dia'+dia
    		let have=false
    		let cont=null
-   		
-   		console.log('146: ---------------');
+   		  
+   		// console.log('146: ---------------');
    		// console.log(data.mes);c
    		
    		try{
 	   		dt.mes[ind].map((i,index)=>{
 	   			if(Object.keys(i)[0]==def){
 					indice=index
-					console.log('existe');
+					// console.log('existe');
 					have=true
 				}else{
-					console.log('Não existe');
+					// console.log('Não existe');
 				}
 	   		})
 
-	   		console.log('\n\n');
-	   		console.log(eval('dt.mes[ind][indice].'+def));
-	   		console.log('\n\n');
-
+	   		// console.log('\n\n');
+	   		// console.log(eval('dt.mes[ind][indice].'+def));
+	   		// console.log('\n\n');
+	   		// let cor=(eval('dt.mes[ind][indice].'+def[0]+'.'))
+	   		// console.log(eval('dt.mes[ind][indice].'+def));
 	   		if(have){
-	   			console.log('have');
+	   			// console.log('have');
 				return eval('dt.mes[ind][indice].'+def).map((i,index)=>{
+					let cor=(eval('i.'+Object.keys(i)[0])==false) ?'#d00':'#0d0'
+					// console.log(eval('i.'+Object.keys(i)[0]));
+
 					return (
 							<View key={index} style={styles.listCheck}>
-								<Text style={{fontSize: 24, color:'#309',marginLeft:10}}>{Object.keys(i)}</Text>
-								<View></View>
+								<Text style={[styles.listTxt]}>{Object.keys(i)[0]}</Text>
+								<View style={[styles.listTF,{backgroundColor:cor}]}></View>
 							</View>
 						)
 				})   			
@@ -210,9 +215,8 @@ const Day=({navigation, route})=>{
 			{
 				addDadosSave()
 			}
-		</View>
-
-)
+			</View>
+			)
 }
 
 export default Day

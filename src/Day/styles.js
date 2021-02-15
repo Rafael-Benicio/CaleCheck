@@ -81,6 +81,17 @@ const styles = StyleSheet.create({
 		alignItems:'center'
 
 	},
+	listTxt:{
+		fontSize: 24, 
+		color:'#309',
+		marginLeft:10,
+		width:widthWi/2
+	},
+	listTF:{
+		backgroundColor:'#f0f',
+		flex:1,
+		height:Dimensions.get('window').height*0.1,
+	}
 })
 
 export default styles
