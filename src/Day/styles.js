@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 		fontSize: 24, 
 		color:'#309',
 		marginLeft:10,
-		width:widthWi/2
+		width:widthWi/2,
 	},
 	listTF:{
 		backgroundColor:'#f0f',

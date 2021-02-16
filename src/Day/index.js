@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {View,Text, TouchableOpacity,TextInput ,AsyncStorage, Button} from 'react-native'
+import {View,Text, TouchableOpacity,TextInput ,AsyncStorage, Button, ScrollView} from 'react-native'
 
 import styles from './styles'
 
@@ -51,7 +51,7 @@ const Day=({navigation, route})=>{
     	    		</View>
     )}}
 
-    // Salvar dados 
+    // Add Novos Dados 
    	function addNewDadoSave(obj,ni){
    		let dt=obj;
    		// Aponta mes
@@ -137,8 +137,36 @@ const Day=({navigation, route})=>{
 		console.log('\n__________________________________');
    	}
 
+   	// Configura ListChecks para True e False
+   	function setToTF(ind,dt,name,TF){
+   		let dtt=dt
+   		let def='dia'+dia
+   		let indice=0
+   		let TrFa=eval('TF.'+name)
+
+   		dt.mes[ind].map((i,index)=>{
+	   			if(Object.keys(i)[0]==def){
+					indice=index
+					// console.log('existe');
+				}else{
+					// console.log('Não existe');
+				}
+	   	})
+   		
+   		
+	   	if(TrFa){
+	   		eval('dtt.mes[valorMes][indice].'+def+'[ind].'+name+'=false')
+	   	}else{
+	   		eval('dtt.mes[valorMes][indice].'+def+'[ind].'+name+'=true')
+	   	}
+		
+		// console.log(eval('dtt.mes[valorMes][indice].'+def+'[ind].'+name));
+		saveData(dtt)
+   	}
+
+
    	//Cria Lista de Checks
-   	const showChecks=(dt=data)=>{
+   	function showChecks(dt=data){
    		let ind=parseInt(valorMes, 10)
    		let indice=0
    		let def='dia'+dia
@@ -159,21 +187,20 @@ const Day=({navigation, route})=>{
 				}
 	   		})
 
-	   		// console.log('\n\n');
-	   		// console.log(eval('dt.mes[ind][indice].'+def));
-	   		// console.log('\n\n');
-	   		// let cor=(eval('dt.mes[ind][indice].'+def[0]+'.'))
-	   		// console.log(eval('dt.mes[ind][indice].'+def));
+	   		
 	   		if(have){
 	   			// console.log('have');
 				return eval('dt.mes[ind][indice].'+def).map((i,index)=>{
 					let cor=(eval('i.'+Object.keys(i)[0])==false) ?'#d00':'#0d0'
 					// console.log(eval('i.'+Object.keys(i)[0]));
+					let nome=Object.keys(i)[0]
 
 					return (
 							<View key={index} style={styles.listCheck}>
-								<Text style={[styles.listTxt]}>{Object.keys(i)[0]}</Text>
-								<View style={[styles.listTF,{backgroundColor:cor}]}></View>
+								<TouchableOpacity style={{flex:1,flexDirection:'row',alignItems:'center'}} onPress={()=>setToTF(index,dt,nome,i)} >
+									<Text style={[styles.listTxt]}>{Object.keys(i)[0]}</Text>
+									<View style={[styles.listTF,{backgroundColor:cor}]}></View>
+								</TouchableOpacity>
 							</View>
 						)
 				})   			
@@ -205,12 +232,12 @@ const Day=({navigation, route})=>{
 						<Text style={styles.edTex}>[]</Text>
 					</TouchableOpacity>		
 			</View>
-			<View>
+			<ScrollView>
 				{
 					// log(data)
 					showChecks()
 				}
-			</View>
+			</ScrollView>
 
 			{
 				addDadosSave()
