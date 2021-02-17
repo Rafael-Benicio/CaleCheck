@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 		width:widthWi*1.2,
 		height: Dimensions.get('window').height*0.25,
 		position: 'absolute',
-		top:Dimensions.get('window').height/2-Dimensions.get('window').height*0.25/2,
+		top:Dimensions.get('window').height/2-Dimensions.get('window').height*0.25,
 		left: widthWi-widthWi*1.2/2,
 		borderRadius: 8,
 		padding: widthWi/9,
@@ -71,7 +71,34 @@ const styles = StyleSheet.create({
 		flexDirection:'row',
 		justifyContent:'space-around',		
 	},
+	cDText:{
+		fontSize:24,
 
+	},
+	checkD:{
+		backgroundColor:'#fff',
+		width:widthWi*1.8,
+		position: 'absolute',
+		top:Dimensions.get('window').height/2-Dimensions.get('window').height*0.25,
+		left: widthWi-widthWi*1.8/2,
+		borderRadius: 8,
+		padding: widthWi/9,
+		borderWidth:1
+	},
+	backCorD:{
+		backgroundColor:'#84f'
+	},
+	scrll:{
+		color:'#ccc',
+		// height:Dimensions.get('window').height*0.3,
+	},
+	allEsc:{
+		height:Dimensions.get('window').height,
+		width:Dimensions.get('window').width,
+		backgroundColor:'#0005',
+		position: 'absolute' ,
+
+	}
 })
 
 export default styles
