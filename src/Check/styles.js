@@ -90,13 +90,43 @@ const styles = StyleSheet.create({
 	},
 	scrll:{
 		color:'#ccc',
-		// height:Dimensions.get('window').height*0.3,
+		height:Dimensions.get('window').height*0.3,
 	},
 	allEsc:{
 		height:Dimensions.get('window').height,
 		width:Dimensions.get('window').width,
 		backgroundColor:'#0005',
 		position: 'absolute' ,
+
+	},
+	inputAdd:{
+		marginVertical: 16,
+		width:widthWi*1,
+		backgroundColor:'#ddd',
+		borderRadius:8,
+		paddingHorizontal: 8
+	},
+	confirmT:{
+		backgroundColor:'#fff',
+		width:widthWi*1.5,
+		height: Dimensions.get('window').height*0.3,
+		position: 'absolute',
+		top:Dimensions.get('window').height/2-Dimensions.get('window').height*0.25,
+		left: widthWi-widthWi*1.5/2,
+		borderRadius: 8,
+		padding: widthWi/9,
+		borderWidth:1
+	},
+	Tam:{
+		width:widthWi*1,
+	},
+	lis:{
+		backgroundColor:'#ddd',
+		marginVertical:10,
+		padding: 8,
+		borderRadius:8,
+		flexDirection: 'row' ,
+		justifyContent:'space-between'
 
 	}
 })

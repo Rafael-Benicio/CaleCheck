@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {Text, View, Dimensions, Button, TouchableHighlight, TouchableOpacity, ScrollView, StatusBar, AsyncStorage} from 'react-native'
+import {Text, View, Dimensions, Button, TouchableHighlight, TouchableOpacity, ScrollView, StatusBar, AsyncStorage, TextInput} from 'react-native'
+import Icon from 'react-native-vector-icons/Feather'
 
 import styles from './styles'
 
@@ -22,7 +23,7 @@ const Check=function({navigation, route}){
 		}
 	}
 
-		// Salva dados
+	// Salva dados
     async function saveDataDefault(n){
         try {
             await AsyncStorage.setItem('defa',JSON.stringify(n))
@@ -87,13 +88,20 @@ const Check=function({navigation, route}){
 					<ScrollView style={styles.scrll}>
 					{
 						data.dia.map((i,index)=>{
-							console.log(i);
+							return(
+									<View key={index} style={styles.lis}>
+										<Text style={{fontSize:16}}>{Object.keys(i)[0]}</Text>
+										<TouchableOpacity onPress={()=>{console.log('apaga list')}}>
+											<Icon name="trash" size={16} color="#84f" />
+										</TouchableOpacity>
+									</View>
+								)
 						})
 					}
 					</ScrollView>
 					<View style={styles.buttonsConfirm}>
 						<Button color='#84f' title="Cancelar" onPress={()=>setCD(false)}/>
-						<Button color='#84f' title="Aplicar"/>
+						<Button color='#84f' title="Prossegir"/>
 					</View>
 				</View>
 			)
@@ -102,17 +110,54 @@ const Check=function({navigation, route}){
 	
 	// Novo defs
 	function NovosDadosDef(){
+		const [tpm,setTpm]=useState('')
+
 		if(cd && newD){
-			// console.log('ndd');
 
 			return(
 				<View style={styles.allEsc}>
-					<View style={styles.confirm}>
-
+					<View style={[styles.confirmT,{alignItems:'center'}]}>
+						<Text style={{fontWeight:'bold',fontSize:20}}>Adicionar Padrão</Text>
+						<TextInput style={styles.inputAdd} value={tpm} onChangeText={tpm => setTpm(tpm)} multiline={false} maxLength={20} autoFocus={true} />
+						<View style={[styles.gridWar,styles.Tam]}>
+							<Button 
+								title="Cancelar" 
+								color='#84f' 
+								onPress={()=>setNewD(false)}
+							/>
+							<Button 
+								title="Salvar" 
+								color='#84f' 
+								onPress={()=>{let t=tpm.trim();setTpm('');setNewD(false); if(t) return addDefs(data,t);else alert('Sem conteudo')}}/>
+						</View>
+						
 					</View>
 				</View>
 			)
 		}
+	}
+
+	function addDefs(dt,ni){
+		let d=dt
+		
+		let parametros = {"1":ni}
+		let objeto = {"1":false}
+
+		Object.keys(parametros).forEach(key => {
+		   // pega o valor que será a nova chave
+		    let newKey = parametros[key];
+		   // cria dinamicamente a nova chave com o valor antigo
+		    objeto[newKey] = objeto[key];
+		    // apaga a chave antiga
+		    delete objeto[key];
+		});
+
+		d.dia.push(objeto)
+		// console.log('======================');
+		// console.log(d);
+		// console.log('======================');
+		saveDataDefault(d)
+
 	}
 
 	return(
@@ -123,8 +168,6 @@ const Check=function({navigation, route}){
 					<TouchableOpacity  style={styles.tituloButton} onPress={()=>{(cor=='#fff') ? setCor('#0f0'): setCor('#fff')}}>
 						<Text style={{	fontSize: 40,fontWeight: 'bold',fontStyle:'italic',color:cor}}>Mubei</Text>
 					</TouchableOpacity>
-
-					<Button title="Log Data" onPress={()=>console.log(data.dia)}/>
 
 					<TouchableOpacity style={[styles.buttonTop,{marginRight:10}]} onPress={()=>{(cd==true)? setCD(false):setCD(true); setReset(false)}}>
 						<Text style={styles.textButton}>Checks Padrão</Text>
