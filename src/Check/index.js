@@ -35,6 +35,7 @@ const Check=function({navigation, route}){
         }
 	}
 
+	// Carregar Listas padrões 
 	async function loadDataDef(){
 		try{
 		    let i=await  AsyncStorage.getItem('defa')
@@ -88,10 +89,11 @@ const Check=function({navigation, route}){
 					<ScrollView style={styles.scrll}>
 					{
 						data.dia.map((i,index)=>{
+							let name=Object.keys(i)[0]
 							return(
 									<View key={index} style={styles.lis}>
-										<Text style={{fontSize:16}}>{Object.keys(i)[0]}</Text>
-										<TouchableOpacity onPress={()=>{console.log('apaga list')}}>
+										<Text style={{fontSize:16}}>{name}</Text>
+										<TouchableOpacity onPress={()=>delDef(data,name)}>
 											<Icon name="trash" size={16} color="#84f" />
 										</TouchableOpacity>
 									</View>
@@ -137,6 +139,7 @@ const Check=function({navigation, route}){
 		}
 	}
 
+	// Adicionar novos elementos padrões
 	function addDefs(dt,ni){
 		let d=dt
 		
@@ -157,8 +160,23 @@ const Check=function({navigation, route}){
 		// console.log(d);
 		// console.log('======================');
 		saveDataDefault(d)
-
 	}
+
+	function delDef(dt,ni){
+		console.log(ni);
+		let novaDef=[]
+
+		dt.dia.map(i=>{
+			if(Object.keys(i)[0]!=ni){
+				novaDef.push(i)
+			}
+		})
+	
+	dt.dia=novaDef
+	saveDataDefault(dt)		
+		
+	}
+
 
 	return(
 		<View>

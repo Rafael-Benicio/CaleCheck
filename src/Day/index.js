@@ -24,6 +24,36 @@ const Day=({navigation, route})=>{
 		}
 	}
 
+	// Carregar Listas padrões 
+	async function loadDataDef(){
+		try{
+			let indice=0
+			let def='dia'+dia
+			let have=false
+		    let i=await  AsyncStorage.getItem('defa')
+		    let j=JSON.parse(i)
+
+			data.mes[valorMes].map((i,index)=>{
+	   			if(Object.keys(i)[0]==def){
+					indice=index
+					have=true
+				}else{
+					console.log('Não existe');
+					have=false
+				}
+	   		})
+
+			
+		    console.log('-------Dados Padrões------');
+		    // saveData(eval('data.mes[valorMes][indice].'+def).push(j.dia))
+		    console.log(data.mes[valorMes]);
+
+		}catch(err){
+			console.log('Erro: Check');
+            // RDados()
+		}
+	}
+
 	// Salva dados
     async function saveData(n=data){
         try {
@@ -187,7 +217,6 @@ const Day=({navigation, route})=>{
 				}
 	   		})
 
-	   		
 	   		if(have){
 	   			// console.log('have');
 				return eval('dt.mes[ind][indice].'+def).map((i,index)=>{
@@ -206,7 +235,7 @@ const Day=({navigation, route})=>{
 				})   			
 	   		}else{
 	   			console.log('Não have');
-	   			return (<View></View>)
+	   			loadDataDef()
 	   		}
 	   	}catch(err){
 	   		console.log('nada');
@@ -228,7 +257,7 @@ const Day=({navigation, route})=>{
 						<Text style={styles.edTex}>+</Text>
 					</TouchableOpacity>	
 
-					<TouchableOpacity style={styles.edit} onPress={()=>{console.log('\n============\n');console.log(data.mes[parseInt(valorMes, 10)]);console.log('\n============\n')}}>
+					<TouchableOpacity style={styles.edit} onPress={()=>{console.log('\n============\n');console.log(data.mes[valorMes]);console.log('\n============\n')}}>
 						<Text style={styles.edTex}>[]</Text>
 					</TouchableOpacity>		
 			</View>
