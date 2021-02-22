@@ -9,48 +9,72 @@ const Day=({navigation, route})=>{
 	const nomeMes=route.params.mes
 	const dia=route.params.dia
 
-	const [data,setData]=useState(loadData())
+	const [data,setData]=useState([])
 	const [showNew,setShowNew]=useState(false)
+
+	useEffect(()=>{
+		loadData()
+	})
 
 	// Carregar dados
 	async function loadData(){
-		try{
+		try{			
 		    let i=await  AsyncStorage.getItem('Key')
-		    let j
-		    j=JSON.parse(i)
-		    setData(j)
+		    let j=JSON.parse(i)		    
+	    	setData(j)
+		
 		}catch(error){
 			console.log('Erro ao Obter dados');
 		}
 	}
 
+	// //Descrobre indice
+	function Indice(dt){		
+		let def='dia'+dia
+		let have=false
+		let indice=0
+		
+	  	// console.log('sim');
+		data.mes[valorMes].map((i,index)=>{
+	   		if(Object.keys(i)[0]==def){
+				indice=index
+				have=true
+			}
+	  	})
+
+  		return [have,indice]
+	}
+
 	// Carregar Listas padrões 
-	async function loadDataDef(){
+	async function loadDataDef(j){
 		try{
-			let indice=0
-			let def='dia'+dia
-			let have=false
-		    let i=await  AsyncStorage.getItem('defa')
-		    let j=JSON.parse(i)
-
-			data.mes[valorMes].map((i,index)=>{
-	   			if(Object.keys(i)[0]==def){
-					indice=index
-					have=true
-				}else{
-					console.log('Não existe');
-					have=false
-				}
-	   		})
-
-			
-		    console.log('-------Dados Padrões------');
-		    // saveData(eval('data.mes[valorMes][indice].'+def).push(j.dia))
-		    console.log(data.mes[valorMes]);
-
+ 			let i=await  AsyncStorage.getItem('defa')
+		    let j=JSON.parse(i)		    
+	    	return j
 		}catch(err){
-			console.log('Erro: Check');
-            // RDados()
+			console.log('Oop!');
+		}		
+	}
+
+	function UseDef(dt,dd){
+		let dados=dd
+		let defa=dt
+		
+		if(Indice(dados)[0]){
+			console.log('Não UseDef========');
+		}else{
+
+			let parametros = {"1":'dia'+dia}
+			let objeto = {"1":defa.dia}
+
+			Object.keys(parametros).forEach(key => {
+			    let newKey = parametros[key];
+			    objeto[newKey] = objeto[key];
+			    delete objeto[key];
+			});
+
+			dados.mes[valorMes].push(objeto)
+			saveData(dados)
 		}
 	}
 
@@ -202,9 +226,7 @@ const Day=({navigation, route})=>{
    		let def='dia'+dia
    		let have=false
    		let cont=null
-   		  
-   		// console.log('146: ---------------');
-   		// console.log(data.mes);c
+
    		
    		try{
 	   		dt.mes[ind].map((i,index)=>{
@@ -218,27 +240,27 @@ const Day=({navigation, route})=>{
 	   		})
 
 	   		if(have){
-	   			// console.log('have');
 				return eval('dt.mes[ind][indice].'+def).map((i,index)=>{
 					let cor=(eval('i.'+Object.keys(i)[0])==false) ?'#d00':'#0d0'
 					// console.log(eval('i.'+Object.keys(i)[0]));
 					let nome=Object.keys(i)[0]
-
+					// console.log(nome);
 					return (
 							<View key={index} style={styles.listCheck}>
-								<TouchableOpacity style={{flex:1,flexDirection:'row',alignItems:'center'}} onPress={()=>setToTF(index,dt,nome,i)} >
-									<Text style={[styles.listTxt]}>{Object.keys(i)[0]}</Text>
+								<TouchableOpacity style={{flex:1,flexDirection:'row',alignItems:'center'}} onPress={()=>setToTF(index,dt,nome,i)} >								
+									<Text style={[styles.listTxt]}>{Object.keys(i)[0]}</Text>									
 									<View style={[styles.listTF,{backgroundColor:cor}]}></View>
-								</TouchableOpacity>
-							</View>
-						)
-				})   			
+								</TouchableOpacity>								
+							</View>							
+							)
+				})
 	   		}else{
 	   			console.log('Não have');
-	   			loadDataDef()
+	   			loadDataDef().then((j)=>UseDef(j,data))
 	   		}
 	   	}catch(err){
 	   		console.log('nada');
+
 	   	}
    	}
 
