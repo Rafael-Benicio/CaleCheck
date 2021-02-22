@@ -102,8 +102,8 @@ const Check=function({navigation, route}){
 					}
 					</ScrollView>
 					<View style={styles.buttonsConfirm}>
-						<Button color='#84f' title="Cancelar" onPress={()=>setCD(false)}/>
-						<Button color='#84f' title="Prossegir"/>
+						<Button color='#84f' title="Fechar" onPress={()=>setCD(false)}/>
+
 					</View>
 				</View>
 			)

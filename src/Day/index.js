@@ -12,9 +12,7 @@ const Day=({navigation, route})=>{
 	const [data,setData]=useState([])
 	const [showNew,setShowNew]=useState(false)
 
-	useEffect(()=>{
-		loadData()
-	})
+	loadData()
 
 	// Carregar dados
 	async function loadData(){
@@ -26,6 +24,18 @@ const Day=({navigation, route})=>{
 		}catch(error){
 			console.log('Erro ao Obter dados');
 		}
+	}
+
+	// Salva dados
+    async function saveData(n=data){
+        try {
+            await AsyncStorage.setItem('Key',JSON.stringify(n))
+            console.log('====================================');
+            console.log('Dados Salvos');
+            console.log('====================================');
+        } catch (error) {
+            console.log('Erro');
+        }
 	}
 
 	// //Descrobre indice
@@ -56,38 +66,47 @@ const Day=({navigation, route})=>{
 		}		
 	}
 
+	// Usa lista padão retornada de "loadDataDef(j)"
 	function UseDef(dt,dd){
 		let dados=dd
 		let defa=dt
+		let def='dia'+dia
 		
 		if(Indice(dados)[0]){
 			console.log('Não UseDef========');
 		}else{
 
-			let parametros = {"1":'dia'+dia}
-			let objeto = {"1":defa.dia}
-
-			Object.keys(parametros).forEach(key => {
-			    let newKey = parametros[key];
-			    objeto[newKey] = objeto[key];
-			    delete objeto[key];
-			});
-
+			let objeto = switchObj('dia'+dia,[])
 			dados.mes[valorMes].push(objeto)
-			saveData(dados)
+			let indice=Indice(dados)
+			console.log(dados.mes[valorMes]);
+
+			if(indice[0]){
+				eval('dados.mes[valorMes][indice[1]].'+def).push(defa.dia[0])
+				console.log(dados.mes[valorMes]);
+				// saveData(dados)
+				// 
+			}
+						
+
+			// dados.mes[valorMes].push(objeto)
+			// saveData(dados)
+			// console.log(data.mes[valorMes]);
 		}
 	}
 
-	// Salva dados
-    async function saveData(n=data){
-        try {
-            await AsyncStorage.setItem('Key',JSON.stringify(n))
-            console.log('====================================');
-            console.log('Dados Salvos');
-            console.log('====================================');
-        } catch (error) {
-            console.log('Erro');
-        }
+	// cria objeto dinamicamente
+	function switchObj(chave,cont){
+		let parametros = {"1":chave}
+		let objeto = {"1":cont}
+
+		Object.keys(parametros).forEach(key => {
+		    let newKey = parametros[key];
+		    objeto[newKey] = objeto[key];
+		    delete objeto[key];
+		});
+
+		return objeto
 	}
 
     // Tela de input, sim e não
@@ -112,38 +131,14 @@ const Day=({navigation, route})=>{
    		let ind=parseInt(valorMes, 10)
 		let have=false
 		let def='dia'+dia
-
-   		let parametros = {"1":def}
-		let objeto = {"1":[]}
-
-		let addC = {"1":ni}
-		let addB = {"1":false}
-
 		let indice=false
+
+		let objeto = switchObj(def,[])
+
+		let addB = switchObj(ni,false)
 	
-		// registra dia
-		Object.keys(parametros).forEach(key => {
-		   // pega o valor que será a nova chave
-		    let newKey = parametros[key];
-		   // cria dinamicamente a nova chave com o valor antigo
-		    objeto[newKey] = objeto[key];
-		    // apaga a chave antiga
-		    delete objeto[key];
-		});
-		// conteudo do dias
-		Object.keys(addC).forEach(key => {
-		   // pega o valor que será a nova chave
-		    let newKey = addC[key];
-		   // cria dinamicamente a nova chave com o valor antigo
-		    addB[newKey] = addB[key];
-		    // apaga a chave antiga
-		    delete addB[key];
-		});
-
+		console.log(objeto);
 		console.log(addB);
-
-		// dt.mes[ind].push(objeto)
-		// dt.mes[ind].push({dia8:[]})
 
 		dt.mes[ind].map((i,index)=>{
 			have=(have==false)? false:true
@@ -256,7 +251,7 @@ const Day=({navigation, route})=>{
 				})
 	   		}else{
 	   			console.log('Não have');
-	   			loadDataDef().then((j)=>UseDef(j,data))
+	   	
 	   		}
 	   	}catch(err){
 	   		console.log('nada');
@@ -279,7 +274,14 @@ const Day=({navigation, route})=>{
 						<Text style={styles.edTex}>+</Text>
 					</TouchableOpacity>	
 
-					<TouchableOpacity style={styles.edit} onPress={()=>{console.log('\n============\n');console.log(data.mes[valorMes]);console.log('\n============\n')}}>
+					<TouchableOpacity 
+						style={styles.edit} 
+						onPress={()=>{
+							console.log('\n============\n');
+							loadDataDef().then((j)=>UseDef(j,data))
+							console.log('\n============\n')}}
+						>
+
 						<Text style={styles.edTex}>[]</Text>
 					</TouchableOpacity>		
 			</View>
