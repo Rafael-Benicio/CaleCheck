@@ -11,6 +11,7 @@ const Day=({navigation, route})=>{
 
 	const [data,setData]=useState([])
 	const [showNew,setShowNew]=useState(false)
+	const [conf,setConf]=useState(false)
 
 	loadData()
 
@@ -76,21 +77,21 @@ const Day=({navigation, route})=>{
 			console.log('Não UseDef========');
 		}else{
 
-			let objeto = switchObj('dia'+dia,[])
+			let objeto = switchObj('dia'+dia,defa.dia)
 			dados.mes[valorMes].push(objeto)
 			let indice=Indice(dados)
 			console.log(dados.mes[valorMes]);
 
-			if(indice[0]){
-				eval('dados.mes[valorMes][indice[1]].'+def).push(defa.dia[0])
-				console.log(dados.mes[valorMes]);
-				// saveData(dados)
-				// 
-			}
+			// if(indice[0]){
+			// 	eval('dados.mes[valorMes][indice[1]].'+def).push(defa.dia[0])
+			// 	console.log(dados.mes[valorMes]);
+			// 	// saveData(dados)
+			// 	// 
+			// }
 						
 
 			// dados.mes[valorMes].push(objeto)
-			// saveData(dados)
+			saveData(dados)
 			// console.log(data.mes[valorMes]);
 		}
 	}
@@ -188,6 +189,11 @@ const Day=({navigation, route})=>{
 
    	// Configura ListChecks para True e False
    	function setToTF(ind,dt,name,TF){
+   		console.log('ind : '+ind+'\n');
+   		// console.log('dt : '+dt+'\n');
+   		// console.log('name : '+name+'\n');
+   		// console.log('TF : '+TF+'\n')
+
    		let dtt=dt
    		let def='dia'+dia
    		let indice=0
@@ -202,6 +208,7 @@ const Day=({navigation, route})=>{
 				}
 	   	})
    		
+   		console.log(eval('dtt.mes[valorMes][indice].'+def+'[ind].'+name));
    		
 	   	if(TrFa){
 	   		eval('dtt.mes[valorMes][indice].'+def+'[ind].'+name+'=false')
@@ -209,7 +216,6 @@ const Day=({navigation, route})=>{
 	   		eval('dtt.mes[valorMes][indice].'+def+'[ind].'+name+'=true')
 	   	}
 		
-		// console.log(eval('dtt.mes[valorMes][indice].'+def+'[ind].'+name));
 		saveData(dtt)
    	}
 
@@ -242,7 +248,10 @@ const Day=({navigation, route})=>{
 					// console.log(nome);
 					return (
 							<View key={index} style={styles.listCheck}>
-								<TouchableOpacity style={{flex:1,flexDirection:'row',alignItems:'center'}} onPress={()=>setToTF(index,dt,nome,i)} >								
+								<TouchableOpacity 
+									style={{flex:1,flexDirection:'row',alignItems:'center'}} 
+									onPress={()=>setToTF(index,dt,nome,i)} 
+									>								
 									<Text style={[styles.listTxt]}>{Object.keys(i)[0]}</Text>									
 									<View style={[styles.listTF,{backgroundColor:cor}]}></View>
 								</TouchableOpacity>								
@@ -259,8 +268,14 @@ const Day=({navigation, route})=>{
 	   	}
    	}
 
-   	const log=(dt)=>{
-   		// console.log(dt.mes[valorMes]);
+   	function confirmDef(){
+   		if(setConf){
+   			return(
+	   			<View style={[styles.showAdd,{alignItems:'center'}]}>
+	   				<Text style={{fontWeight:'bold'}}>Quer carregar os dados padrões?</Text>
+	   			</View>
+   			)
+   		}
    	}
 
 	return(
@@ -278,11 +293,12 @@ const Day=({navigation, route})=>{
 						style={styles.edit} 
 						onPress={()=>{
 							console.log('\n============\n');
-							loadDataDef().then((j)=>UseDef(j,data))
+							// loadDataDef().then((j)=>UseDef(j,data))
+							(conf==false) ? setConf(true):setConf(false);
 							console.log('\n============\n')}}
 						>
 
-						<Text style={styles.edTex}>[]</Text>
+						<Text style={styles.edTex}>ħ</Text>
 					</TouchableOpacity>		
 			</View>
 			<ScrollView>
@@ -294,6 +310,9 @@ const Day=({navigation, route})=>{
 
 			{
 				addDadosSave()
+			}
+			{
+				confirmDef()
 			}
 			</View>
 			)
