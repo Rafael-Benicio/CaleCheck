@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {View,Text, TouchableOpacity,TextInput ,AsyncStorage, Button, ScrollView} from 'react-native'
+import {View,Text, TouchableOpacity,TouchableHighlight,TextInput ,AsyncStorage, Button, ScrollView} from 'react-native'
 
 import styles from './styles'
 
@@ -269,10 +269,14 @@ const Day=({navigation, route})=>{
    	}
 
    	function confirmDef(){
-   		if(setConf){
+   		if(conf){
    			return(
-	   			<View style={[styles.showAdd,{alignItems:'center'}]}>
+	   			<View style={[styles.showAdd,{alignItems:'center',flex:1}]}>
 	   				<Text style={{fontWeight:'bold'}}>Quer carregar os dados padrões?</Text>
+	   				<View style={styles.confirmDeff}>
+	   					<Button color='#84f' title="Não" onPress={()=>setConf(false)}/>
+	   					<Button color='#84f' title="Sim" onPress={()=>{setConf(false);loadDataDef().then((j)=>UseDef(j,data))}}/>
+	   				</View>	
 	   			</View>
    			)
    		}
@@ -285,21 +289,22 @@ const Day=({navigation, route})=>{
 						<Text style={styles.mesDia}>{'Dia '+dia+' de '+nomeMes}</Text>
 					</TouchableOpacity>
 
-					<TouchableOpacity style={styles.edit} onPress={()=>((showNew==false)?setShowNew(true):setShowNew(false))}>
+					<TouchableHighlight underlayColor='#aa66ff'  style={styles.edit} onPress={()=>((showNew==false)?setShowNew(true):setShowNew(false))}>
 						<Text style={styles.edTex}>+</Text>
-					</TouchableOpacity>	
+					</TouchableHighlight>	
 
-					<TouchableOpacity 
+					<TouchableHighlight 
+						underlayColor='#aa66ff'
 						style={styles.edit} 
 						onPress={()=>{
 							console.log('\n============\n');
-							// loadDataDef().then((j)=>UseDef(j,data))
+							
 							(conf==false) ? setConf(true):setConf(false);
 							console.log('\n============\n')}}
 						>
 
 						<Text style={styles.edTex}>ħ</Text>
-					</TouchableOpacity>		
+					</TouchableHighlight>		
 			</View>
 			<ScrollView>
 				{

@@ -91,6 +91,14 @@ const styles = StyleSheet.create({
 		backgroundColor:'#f0f',
 		flex:1,
 		height:Dimensions.get('window').height*0.1,
+	},
+	confirmDeff:{
+		flexDirection:'row',
+		justifyContent:'space-around',
+		alignItems:'center',
+		marginTop:20,
+		// backgroundColor:'#f0f',
+		width:widthWi/2,
 	}
 })
 
