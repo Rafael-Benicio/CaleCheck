@@ -10,13 +10,15 @@ const Check=function({navigation, route}){
 	const [reset,setReset]=useState(false)
 	const [cd,setCD]=useState(false)
 	const [newD,setNewD]=useState(false)
-	const [data, setData]=useState(loadDataDef())
+	const [data, setData]=useState([])
 
 	// Checar se já existe dados no App ou se tem que criar uma nova base
 	async function loadData (){
 		try{
 		    let i=await  AsyncStorage.getItem('Key')
-			// return console.log('Sucesso: check '+JSON.parse(i))
+		    if (i==null){
+		    	throw new Error('dados são Null')
+		    }
 		}catch(err){
 			console.log('Erro: Check');
             RDados()
@@ -59,8 +61,6 @@ const Check=function({navigation, route}){
         setReset(false)
 	} 
 
-	loadData()
-
 	// Para confirmar se realmente quer apagar os dados salvos
 	function ResetDados(){
 		if(reset){
@@ -69,7 +69,7 @@ const Check=function({navigation, route}){
 						<Text>Você tem certeza que quer </Text>
 						<Text>APAGAR os dados do App?</Text>
 						<View style={styles.buttonsConfirm}>
-							<Button color='#84f' title="Sim" onPress={RDados}/> 
+							<Button color='#84f' title="Sim" onPress={()=>{RDados();saveDataDefault({dia:[]})}}/> 
 							<Button color='#84f' title="Não" onPress={()=>(setReset(false))}/>
 						</View>
 					</View>
@@ -120,7 +120,14 @@ const Check=function({navigation, route}){
 				<View style={styles.allEsc}>
 					<View style={[styles.confirmT,{alignItems:'center'}]}>
 						<Text style={{fontWeight:'bold',fontSize:20}}>Adicionar Padrão</Text>
-						<TextInput style={styles.inputAdd} value={tpm} onChangeText={tpm => setTpm(tpm)} multiline={false} maxLength={20} autoFocus={true} />
+						<TextInput 
+							style={styles.inputAdd} 
+							value={tpm} 
+							onChangeText={tpm => setTpm(tpm)} 
+							multiline={false} 
+							maxLength={20} 
+							autoFocus={true} 
+							/>
 						<View style={[styles.gridWar,styles.Tam]}>
 							<Button 
 								title="Cancelar" 
@@ -130,7 +137,14 @@ const Check=function({navigation, route}){
 							<Button 
 								title="Salvar" 
 								color='#84f' 
-								onPress={()=>{let t=tpm.trim();setTpm('');setNewD(false); if(t) return addDefs(data,t);else alert('Sem conteudo')}}/>
+								onPress={()=>
+									{
+										let t=tpm.trim();
+										setTpm('');
+										setNewD(false);
+										if(t) return addDefs(data,t);
+										else alert('Sem conteudo')
+									}}/>
 						</View>
 						
 					</View>
@@ -155,10 +169,9 @@ const Check=function({navigation, route}){
 		    delete objeto[key];
 		});
 
+
 		d.dia.push(objeto)
-		// console.log('======================');
-		// console.log(d);
-		// console.log('======================');
+
 		saveDataDefault(d)
 	}
 
@@ -172,11 +185,13 @@ const Check=function({navigation, route}){
 			}
 		})
 	
-	dt.dia=novaDef
-	saveDataDefault(dt)		
+		dt.dia=novaDef
+		saveDataDefault(dt)		
 		
 	}
 
+	loadData()
+	loadDataDef()
 
 	return(
 		<View>
@@ -217,12 +232,15 @@ const Check=function({navigation, route}){
 				</View>
 			</ScrollView>
 			{
+				// Janela para perguntar se quer rezetar os dados do app
 				ResetDados()
 			}
 			{
+				// Janela para ver os checks Padrões registrados
 				ChecksDefault()
 			}
 			{
+				// Janela para criar novos checks Padrões
 				NovosDadosDef()
 			}
 		</View>			

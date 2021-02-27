@@ -39,13 +39,12 @@ const Day=({navigation, route})=>{
         }
 	}
 
-	// //Descrobre indice
+	//Descrobre indice
 	function Indice(dt){		
 		let def='dia'+dia
 		let have=false
 		let indice=0
 		
-	  	// console.log('sim');
 		data.mes[valorMes].map((i,index)=>{
 	   		if(Object.keys(i)[0]==def){
 				indice=index
@@ -72,7 +71,8 @@ const Day=({navigation, route})=>{
 		let dados=dd
 		let defa=dt
 		let def='dia'+dia
-		
+		let arr=true
+
 		if(Indice(dados)[0]){
 			console.log('Não UseDef========');
 		}else{
@@ -81,18 +81,9 @@ const Day=({navigation, route})=>{
 			dados.mes[valorMes].push(objeto)
 			let indice=Indice(dados)
 			console.log(dados.mes[valorMes]);
-
-			// if(indice[0]){
-			// 	eval('dados.mes[valorMes][indice[1]].'+def).push(defa.dia[0])
-			// 	console.log(dados.mes[valorMes]);
-			// 	// saveData(dados)
-			// 	// 
-			// }
 						
-
-			// dados.mes[valorMes].push(objeto)
 			saveData(dados)
-			// console.log(data.mes[valorMes]);
+			
 		}
 	}
 
@@ -110,7 +101,7 @@ const Day=({navigation, route})=>{
 		return objeto
 	}
 
-    // Tela de input, sim e não
+    // Tela de input, sim e não para novos dados
     function addDadosSave(){
     	const [tmp,setTmp]=useState('')
     	if(showNew){
@@ -125,7 +116,7 @@ const Day=({navigation, route})=>{
     	    		</View>
     )}}
 
-    // Add Novos Dados 
+    // Recebe dados de "addDadosSave()" para fazer registros
    	function addNewDadoSave(obj,ni){
    		let dt=obj;
    		// Aponta mes
@@ -138,31 +129,27 @@ const Day=({navigation, route})=>{
 
 		let addB = switchObj(ni,false)
 	
-		console.log(objeto);
-		console.log(addB);
+		// console.log(objeto);
+		// console.log(addB);
 
+   		// Vê se já existe um objeto para destinar os dados
 		dt.mes[ind].map((i,index)=>{
 			have=(have==false)? false:true
 			console.log('Array dias :')
 			console.log(have);
 			
-
+			// Checa se já existe um objeto para direcionar os dados
 			if(Object.keys(i)[0]==def){
 				indice=index
 				console.log('existe');
 		   		have=true;
 			}
 		})
-
-		console.log('Passou Map\n');
-
-		console.log(indice+'\n');
-
-		if(have){
+		
+		if(have){	// Se existe o objeto para direcinar os dados inclui ele direto
 			console.log('Have');
 			eval('dt.mes[ind][indice].'+def).push(addB);		
-			// console.log(dt.mes[ind]);
-		}else{
+		}else{     // Se não existe um objeto para direcinar os dados cria e insere os dados
 			console.log('Não Have');
 			dt.mes[ind].push(objeto)
 			console.log('!-!-!');
@@ -172,27 +159,17 @@ const Day=({navigation, route})=>{
 				indice=index
 			}})
 
-			console.log(dt.mes[ind]);
 			eval('dt.mes[ind][indice].'+def).push(addB);		
 		}
 
-		console.log('\nLast Lag ---\n');	
-
-		// console.log(eval('dt.mes[ind][indice].'+def));		
-
-		console.log('kdjd');
-
+		// salva as alterações
 		saveData(dt)
-
-		console.log('\n__________________________________');
    	}
 
    	// Configura ListChecks para True e False
    	function setToTF(ind,dt,name,TF){
    		console.log('ind : '+ind+'\n');
-   		// console.log('dt : '+dt+'\n');
-   		// console.log('name : '+name+'\n');
-   		// console.log('TF : '+TF+'\n')
+   
 
    		let dtt=dt
    		let def='dia'+dia
@@ -202,13 +179,10 @@ const Day=({navigation, route})=>{
    		dt.mes[ind].map((i,index)=>{
 	   			if(Object.keys(i)[0]==def){
 					indice=index
-					// console.log('existe');
 				}else{
 					// console.log('Não existe');
 				}
 	   	})
-   		
-   		console.log(eval('dtt.mes[valorMes][indice].'+def+'[ind].'+name));
    		
 	   	if(TrFa){
 	   		eval('dtt.mes[valorMes][indice].'+def+'[ind].'+name+'=false')
@@ -233,7 +207,6 @@ const Day=({navigation, route})=>{
 	   		dt.mes[ind].map((i,index)=>{
 	   			if(Object.keys(i)[0]==def){
 					indice=index
-					// console.log('existe');
 					have=true
 				}else{
 					// console.log('Não existe');
@@ -242,10 +215,14 @@ const Day=({navigation, route})=>{
 
 	   		if(have){
 				return eval('dt.mes[ind][indice].'+def).map((i,index)=>{
-					let cor=(eval('i.'+Object.keys(i)[0])==false) ?'#d00':'#0d0'
+					let cor='#d00'
 					// console.log(eval('i.'+Object.keys(i)[0]));
+
+					if(eval('i.'+Object.keys(i)[0])) cor='#d00'
+					else cor='#0d0'
+
 					let nome=Object.keys(i)[0]
-					// console.log(nome);
+
 					return (
 							<View key={index} style={styles.listCheck}>
 								<TouchableOpacity 
@@ -308,15 +285,17 @@ const Day=({navigation, route})=>{
 			</View>
 			<ScrollView>
 				{
-					// log(data)
+					// Lista de checks 
 					showChecks()
 				}
 			</ScrollView>
-
 			{
+				// Janela de incerção de dados
 				addDadosSave()
 			}
+			
 			{
+				// Janela para carregar os dados padões 
 				confirmDef()
 			}
 			</View>
