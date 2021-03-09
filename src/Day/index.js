@@ -39,22 +39,6 @@ const Day=({navigation, route})=>{
         }
 	}
 
-	//Descrobre indice
-	function Indice(dt){		
-		let def='dia'+dia
-		let have=false
-		let indice=0
-		
-		data.mes[valorMes].map((i,index)=>{
-	   		if(Object.keys(i)[0]==def){
-				indice=index
-				have=true
-			}
-	  	})
-
-  		return [have,indice]
-	}
-
 	// Carregar Listas padrões 
 	async function loadDataDef(j){
 		try{
@@ -68,23 +52,9 @@ const Day=({navigation, route})=>{
 
 	// Usa lista padão retornada de "loadDataDef(j)"
 	function UseDef(dt,dd){
-		let dados=dd
-		let defa=dt
-		let def='dia'+dia
-		let arr=true
-
-		if(Indice(dados)[0]){
-			console.log('Não UseDef========');
-		}else{
-
-			let objeto = switchObj('dia'+dia,defa.dia)
-			dados.mes[valorMes].push(objeto)
-			let indice=Indice(dados)
-			console.log(dados.mes[valorMes]);
-						
-			saveData(dados)
-			
-		}
+		dt.dia[0].dia='dia'+dia
+		dd.mes[valorMes].push(dt.dia[0])
+		saveData(dd)
 	}
 
 	// cria objeto dinamicamente
@@ -118,130 +88,69 @@ const Day=({navigation, route})=>{
 
     // Recebe dados de "addDadosSave()" para fazer registros
    	function addNewDadoSave(obj,ni){
-   		let dt=obj;
-   		// Aponta mes
-   		let ind=parseInt(valorMes, 10)
-		let have=false
-		let def='dia'+dia
-		let indice=false
+   		let ind=null
+   		console.log(obj);
+   		console.log('=======');
+   		console.log(ni);
 
-		let objeto = switchObj(def,[])
+   		obj.mes[valorMes].map((i,index)=>{
+   			if(i.dia=="dia"+dia)
+   				ind=index
+   		})
 
-		let addB = switchObj(ni,false)
-	
-		// console.log(objeto);
-		// console.log(addB);
-
-   		// Vê se já existe um objeto para destinar os dados
-		dt.mes[ind].map((i,index)=>{
-			have=(have==false)? false:true
-			console.log('Array dias :')
-			console.log(have);
-			
-			// Checa se já existe um objeto para direcionar os dados
-			if(Object.keys(i)[0]==def){
-				indice=index
-				console.log('existe');
-		   		have=true;
-			}
-		})
-		
-		if(have){	// Se existe o objeto para direcinar os dados inclui ele direto
-			console.log('Have');
-			eval('dt.mes[ind][indice].'+def).push(addB);		
-		}else{     // Se não existe um objeto para direcinar os dados cria e insere os dados
-			console.log('Não Have');
-			dt.mes[ind].push(objeto)
-			console.log('!-!-!');
-
-			dt.mes[ind].map((i,index)=>{
-			if(Object.keys(i)[0]==def){
-				indice=index
-			}})
-
-			eval('dt.mes[ind][indice].'+def).push(addB);		
+   		if(ind!=null){
+   			obj.mes[valorMes][ind].check.push(ni)
+   			obj.mes[valorMes][ind].tf.push(false)
+   		}else if(ind==null){
+   			console.log('não existe');
 		}
-
-		// salva as alterações
-		saveData(dt)
+		
+		console.log(obj.mes[valorMes]);
+		saveData(obj)
    	}
 
    	// Configura ListChecks para True e False
-   	function setToTF(ind,dt,name,TF){
-   		console.log('ind : '+ind+'\n');
-   
-
-   		let dtt=dt
-   		let def='dia'+dia
-   		let indice=0
-   		let TrFa=eval('TF.'+name)
-
-   		dt.mes[ind].map((i,index)=>{
-	   			if(Object.keys(i)[0]==def){
-					indice=index
-				}else{
-					// console.log('Não existe');
-				}
-	   	})
-   		
-	   	if(TrFa){
-	   		eval('dtt.mes[valorMes][indice].'+def+'[ind].'+name+'=false')
-	   	}else{
-	   		eval('dtt.mes[valorMes][indice].'+def+'[ind].'+name+'=true')
-	   	}
-		
-		saveData(dtt)
+   	function setToTF(dt,ind,index){
+		dt.mes[valorMes][ind].tf[index]=(dt.mes[valorMes][ind].tf[index]) ? false : true
+		saveData(dt)
    	}
 
 
    	//Cria Lista de Checks
    	function showChecks(dt=data){
-   		let ind=parseInt(valorMes, 10)
-   		let indice=0
-   		let def='dia'+dia
-   		let have=false
-   		let cont=null
+   		let ind=null
 
-   		
    		try{
-	   		dt.mes[ind].map((i,index)=>{
-	   			if(Object.keys(i)[0]==def){
-					indice=index
-					have=true
-				}else{
-					// console.log('Não existe');
-				}
+	   		dt.mes[valorMes].map((i,index)=>{
+	   			if(i.dia=='dia'+dia){
+	   				ind=index
+	   			}
 	   		})
 
-	   		if(have){
-				return eval('dt.mes[ind][indice].'+def).map((i,index)=>{
-					let cor='#d00'
-					// console.log(eval('i.'+Object.keys(i)[0]));
+	   	
+		   	if(ind!=null){
+				return(
+					dt.mes[valorMes][ind].check.map((i,index)=>{
+						let cor=(dt.mes[valorMes][ind].tf[index]) ? '#0d0': '#d00'
 
-					if(eval('i.'+Object.keys(i)[0])) cor='#d00'
-					else cor='#0d0'
-
-					let nome=Object.keys(i)[0]
-
-					return (
+						return(
 							<View key={index} style={styles.listCheck}>
 								<TouchableOpacity 
 									style={{flex:1,flexDirection:'row',alignItems:'center'}} 
-									onPress={()=>setToTF(index,dt,nome,i)} 
-									>								
-									<Text style={[styles.listTxt]}>{Object.keys(i)[0]}</Text>									
-									<View style={[styles.listTF,{backgroundColor:cor}]}></View>
-								</TouchableOpacity>								
-							</View>							
-							)
-				})
-	   		}else{
-	   			console.log('Não have');
-	   	
-	   		}
+				 					onPress={()=>setToTF(dt,ind,index)} >								
+					 				<Text style={[styles.listTxt]}>{i}</Text>									
+					 				<View style={[styles.listTF,{backgroundColor:cor}]}></View>
+					 			</TouchableOpacity>		
+							</View>
+						)
+					})
+
+				)
+		   	}else{
+				console.log('Não have');  	
+		   	}
 	   	}catch(err){
 	   		console.log('nada');
-
 	   	}
    	}
 

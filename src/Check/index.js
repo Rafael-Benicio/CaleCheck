@@ -43,8 +43,8 @@ const Check=function({navigation, route}){
 		    let i=await  AsyncStorage.getItem('defa')
 			let j
 		    j=JSON.parse(i)
-		    if(j==null) 
-		    	saveDataDefault({dia:[]}) 
+		    if(j==null || j==undefined) 
+		    	saveDataDefault({dia:[{check:[],tf:[],dia:''}]}) 
 		    else{
 		    	setData(j)
 		    } 
@@ -69,7 +69,7 @@ const Check=function({navigation, route}){
 						<Text>Você tem certeza que quer </Text>
 						<Text>APAGAR os dados do App?</Text>
 						<View style={styles.buttonsConfirm}>
-							<Button color='#84f' title="Sim" onPress={()=>{RDados();saveDataDefault({dia:[]})}}/> 
+							<Button color='#84f' title="Sim" onPress={()=>{RDados();saveDataDefault({dia:[{check:[],tf:[],dia:''}]}) }}/> 
 							<Button color='#84f' title="Não" onPress={()=>(setReset(false))}/>
 						</View>
 					</View>
@@ -84,16 +84,16 @@ const Check=function({navigation, route}){
 				<View style={styles.checkD}>
 					<View style={{flexDirection:'row', justifyContent:"space-between"}}>
 						<Text style={styles.cDText}>Checks Padrões</Text>
+						{/*<Button title='-' onPress={()=>saveDataDefault({dia:[{check:[],tf:[],dia:''}]}) }/>*/}
 						<Button title="+" color='#84f' onPress={()=>(newD==false) ? setNewD(true): setNewD(false)} />
 					</View>
 					<ScrollView style={styles.scrll}>
 					{
-						data.dia.map((i,index)=>{
-							let name=Object.keys(i)[0]
+						data.dia[0].check.map((i,index)=>{
 							return(
-									<View key={index} style={styles.lis}>
-										<Text style={{fontSize:16}}>{name}</Text>
-										<TouchableOpacity onPress={()=>delDef(data,name)}>
+								<View key={index} style={styles.lis}>
+									<Text style={{fontSize:16}}>{i}</Text>
+										<TouchableOpacity onPress={()=>delDef(data,index)}>
 											<Icon name="trash" size={16} color="#84f" />
 										</TouchableOpacity>
 									</View>
@@ -105,11 +105,11 @@ const Check=function({navigation, route}){
 						<Button color='#84f' title="Fechar" onPress={()=>setCD(false)}/>
 
 					</View>
-				</View>
+				</View>					
 			)
 		}
 	}
-	
+
 	// Novo defs
 	function NovosDadosDef(){
 		const [tpm,setTpm]=useState('')
@@ -155,38 +155,29 @@ const Check=function({navigation, route}){
 
 	// Adicionar novos elementos padrões
 	function addDefs(dt,ni){
-		let d=dt
-		
-		let parametros = {"1":ni}
-		let objeto = {"1":false}
-
-		Object.keys(parametros).forEach(key => {
-		   // pega o valor que será a nova chave
-		    let newKey = parametros[key];
-		   // cria dinamicamente a nova chave com o valor antigo
-		    objeto[newKey] = objeto[key];
-		    // apaga a chave antiga
-		    delete objeto[key];
-		});
-
-
-		d.dia.push(objeto)
-
-		saveDataDefault(d)
+		var dados=dt
+		dados.dia[0].check.push(ni)
+		dados.dia[0].tf.push(false)
+		saveDataDefault(dados)
 	}
-
+	// deletar def
 	function delDef(dt,ni){
-		console.log(ni);
-		let novaDef=[]
+		let dados={dia:[{check:[],tf:[]}]}
+		let arr=[]
 
-		dt.dia.map(i=>{
-			if(Object.keys(i)[0]!=ni){
-				novaDef.push(i)
+		dt.dia[0].check.map((i,index)=>{
+			if(ni!=index){
+				arr.push(index)
 			}
 		})
-	
-		dt.dia=novaDef
-		saveDataDefault(dt)		
+		
+		for (let i=0;i<arr.length;i++){
+			dados.dia[0].check.push(dt.dia[0].check[arr[i]])
+			dados.dia[0].tf.push(dt.dia[0].tf[arr[i]])
+		}
+
+		saveDataDefault(dados)
+			
 		
 	}
 
@@ -206,7 +197,7 @@ const Check=function({navigation, route}){
 						<Text style={styles.textButton}>Checks Padrão</Text>
 					</TouchableOpacity>
 
-					<TouchableOpacity style={styles.buttonTop} onPress={()=>{(reset==true)? setReset(false):setReset(true); setCD(false)}}>
+					<TouchableOpacity style={styles.buttonTop} onPress={()=>{(reset==true)? setReset(false):setReset(true); setCD(false);}}>
 						<Text style={styles.textButton}>Reset Dados</Text>
 					</TouchableOpacity>
 			</View>	
