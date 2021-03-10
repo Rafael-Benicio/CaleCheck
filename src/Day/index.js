@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {View,Text, TouchableOpacity,TouchableHighlight,TextInput ,AsyncStorage, Button, ScrollView} from 'react-native'
+import Icon from 'react-native-vector-icons/Feather'
 
 import styles from './styles'
 
@@ -12,6 +13,7 @@ const Day=({navigation, route})=>{
 	const [data,setData]=useState([])
 	const [showNew,setShowNew]=useState(false)
 	const [conf,setConf]=useState(false)
+	const [del,setDel]=useState(false)
 
 	loadData()
 
@@ -57,20 +59,6 @@ const Day=({navigation, route})=>{
 		saveData(dd)
 	}
 
-	// cria objeto dinamicamente
-	function switchObj(chave,cont){
-		let parametros = {"1":chave}
-		let objeto = {"1":cont}
-
-		Object.keys(parametros).forEach(key => {
-		    let newKey = parametros[key];
-		    objeto[newKey] = objeto[key];
-		    delete objeto[key];
-		});
-
-		return objeto
-	}
-
     // Tela de input, sim e não para novos dados
     function addDadosSave(){
     	const [tmp,setTmp]=useState('')
@@ -89,9 +77,6 @@ const Day=({navigation, route})=>{
     // Recebe dados de "addDadosSave()" para fazer registros
    	function addNewDadoSave(obj,ni){
    		let ind=null
-   		console.log(obj);
-   		console.log('=======');
-   		console.log(ni);
 
    		obj.mes[valorMes].map((i,index)=>{
    			if(i.dia=="dia"+dia)
@@ -102,7 +87,7 @@ const Day=({navigation, route})=>{
    			obj.mes[valorMes][ind].check.push(ni)
    			obj.mes[valorMes][ind].tf.push(false)
    		}else if(ind==null){
-   			console.log('não existe');
+   			obj.mes[valorMes].push({check:[ni],tf:[false],dia:'dia'+dia})
 		}
 		
 		console.log(obj.mes[valorMes]);
@@ -115,6 +100,37 @@ const Day=({navigation, route})=>{
 		saveData(dt)
    	}
 
+   	function deletarChecks(dt,i,index){
+   		// console.log(dt);
+   		console.log(i);
+   		console.log(index);
+   		let arr=[]
+   		let ind=null
+
+   		dt.mes[valorMes].map((i,endex)=>{
+   			if(i.dia=='dia'+dia){
+   				ind=endex
+   			}
+   		})
+
+   		dt.mes[valorMes][ind].check.map((i,endex)=>{
+   			console.log(i);
+   			if(index!=)
+   		})
+
+   		console.log(dt.mes[valorMes][ind]);
+   	}
+
+   	// deletar chacks
+   	function checksDelet(i,index){
+   		if(del){
+	   		return(
+				<TouchableOpacity style={styles.Warp} onPress={()=>deletarChecks(data,i,index)}>
+					<Icon name="trash" size={20} color="#fff" style={styles.trash} />
+				</TouchableOpacity>
+	   		)
+	   	}
+   	}
 
    	//Cria Lista de Checks
    	function showChecks(dt=data){
@@ -126,8 +142,7 @@ const Day=({navigation, route})=>{
 	   				ind=index
 	   			}
 	   		})
-
-	   	
+	
 		   	if(ind!=null){
 				return(
 					dt.mes[valorMes][ind].check.map((i,index)=>{
@@ -135,8 +150,11 @@ const Day=({navigation, route})=>{
 
 						return(
 							<View key={index} style={styles.listCheck}>
+								{
+									checksDelet(i,index)
+								}
 								<TouchableOpacity 
-									style={{flex:1,flexDirection:'row',alignItems:'center'}} 
+									style={[styles.buttonCheck,]} 
 				 					onPress={()=>setToTF(dt,ind,index)} >								
 					 				<Text style={[styles.listTxt]}>{i}</Text>									
 					 				<View style={[styles.listTF,{backgroundColor:cor}]}></View>
@@ -174,6 +192,10 @@ const Day=({navigation, route})=>{
 					<TouchableOpacity style={styles.warpMesDia} onPress={()=>navigation.navigate('Mes',{mes:nomeMes})}>
 						<Text style={styles.mesDia}>{'Dia '+dia+' de '+nomeMes}</Text>
 					</TouchableOpacity>
+
+					<TouchableHighlight underlayColor='#aa66ff'  style={styles.edit} onPress={()=>((del==false)? setDel(true):setDel(false))}>
+						<Text style={styles.edTex}>-</Text>
+					</TouchableHighlight>
 
 					<TouchableHighlight underlayColor='#aa66ff'  style={styles.edit} onPress={()=>((showNew==false)?setShowNew(true):setShowNew(false))}>
 						<Text style={styles.edTex}>+</Text>

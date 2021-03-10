@@ -99,6 +99,23 @@ const styles = StyleSheet.create({
 		marginTop:20,
 		// backgroundColor:'#f0f',
 		width:widthWi/2,
+	},
+	buttonCheck:{
+		flex:1,
+		flexDirection:'row',
+		alignItems:'center',
+		borderLeftWidth: 3,
+		borderRightWidth: 3,
+		borderColor: '#a0f',
+	},
+	trash:{
+		paddingHorizontal:5
+	},
+	Warp:{
+		backgroundColor:'#a0f',
+		height:Dimensions.get('window').height*0.1,
+		alignItems:'center',
+		justifyContent:'center'
 	}
 })
 
