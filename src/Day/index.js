@@ -74,7 +74,8 @@ const Day=({navigation, route})=>{
     	    		</View>
     )}}
 
-    // Recebe dados de "addDadosSave()" para fazer registros
+    // Recebe dados d
+    // e "addDadosSave()" para fazer registros
    	function addNewDadoSave(obj,ni){
    		let ind=null
 
@@ -101,9 +102,8 @@ const Day=({navigation, route})=>{
    	}
 
    	function deletarChecks(dt,i,index){
-   		// console.log(dt);
-   		console.log(i);
-   		console.log(index);
+   		let data=dt
+   		let dados={check:[],tf:[],dia:'dia'+dia}
    		let arr=[]
    		let ind=null
 
@@ -114,11 +114,21 @@ const Day=({navigation, route})=>{
    		})
 
    		dt.mes[valorMes][ind].check.map((i,endex)=>{
-   			console.log(i);
-   			if(index!=)
+   			if(index!=endex){
+   				arr.push(endex)
+   			}
    		})
 
-   		console.log(dt.mes[valorMes][ind]);
+   		for (let i=0;i<arr.length;i++){
+			dados.check.push(dt.mes[valorMes][ind].check[arr[i]])
+			dados.tf.push(dt.mes[valorMes][ind].tf[arr[i]])
+		}
+		
+   		data.mes[valorMes][ind]=dados
+   		console.log(data.mes[valorMes]);
+   		// setData(data)
+   		saveData(data)
+
    	}
 
    	// deletar chacks
